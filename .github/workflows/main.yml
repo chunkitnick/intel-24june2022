@@ -42,29 +42,43 @@ jobs:
         with:
           name: public-package
           path: public
+  
+  test:
+    name: Test npm audit
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Download
+        uses: actions/download-artifact@v3
+        with:
+          name: public-package
+          path: public
+      
+      - name: Audit
+        run: npm audit
 
   deploy:
-      name: Deploy
-      runs-on: ubuntu-latest
-      needs: build
-      steps:
-        - name: Download
-          uses: actions/download-artifact@v3
-          with:
-            name: public-package
-            path: public
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download
+        uses: actions/download-artifact@v3
+        with:
+          name: public-package
+          path: public
 
-        - name: copy public to ubuntu
-          uses: mdallasanta/ssh-scp-deploy@v1.2.0
-          with:
-            local: 'public'                                                  # Local file path - REQUIRED false - DEFAULT ./
-            remote: '/home/azureuser/'                                                 # Remote file path - REQUIRED false - DEFAULT ~/
-            host: ${{secrets.REMOTE_HOST}}                                      # Remote server address - REQUIRED true
-            #port: ${{secrets.PORT}}                                      # Remote server port - REQUIRED false - DEFAULT 22
-            user: ${{secrets.REMOTE_USER}}                                      # Remote server user - REQUIRED true
-            #password: ${{secrets.PASSWORD}}                              # User password - REQUIRED at least one of "password" or "key" 
-            key: ${{secrets.SSH_PRIVATEKEY}}                                        # Remote server private key - REQUIRED at least one of "password" or "key" 
-            pre_upload: sudo rm -rf /var/www/html/*  # Command to run via ssh before scp upload - REQUIRED false
-            post_upload: sudo mv public/* /var/www/html/  # Command to run via ssh after scp upload - REQUIRED false
-            ssh_options: -o StrictHostKeyChecking=no                     # A set of ssh_option separated by -o - REQUIRED false - DEFAULT -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
-            scp_options: -v    
+      - name: copy public to ubuntu
+        uses: mdallasanta/ssh-scp-deploy@v1.2.0
+        with:
+          local: 'public'                                                  # Local file path - REQUIRED false - DEFAULT ./
+          remote: '/home/azureuser/'                                                 # Remote file path - REQUIRED false - DEFAULT ~/
+          host: ${{secrets.REMOTE_HOST}}                                      # Remote server address - REQUIRED true
+          #port: ${{secrets.PORT}}                                      # Remote server port - REQUIRED false - DEFAULT 22
+          user: ${{secrets.REMOTE_USER}}                                      # Remote server user - REQUIRED true
+          #password: ${{secrets.PASSWORD}}                              # User password - REQUIRED at least one of "password" or "key" 
+          key: ${{secrets.SSH_PRIVATEKEY}}                                        # Remote server private key - REQUIRED at least one of "password" or "key" 
+          pre_upload: sudo rm -rf /var/www/html/*  # Command to run via ssh before scp upload - REQUIRED false
+          post_upload: sudo mv public/* /var/www/html/  # Command to run via ssh after scp upload - REQUIRED false
+          ssh_options: -o StrictHostKeyChecking=no                     # A set of ssh_option separated by -o - REQUIRED false - DEFAULT -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+          scp_options: -v    
