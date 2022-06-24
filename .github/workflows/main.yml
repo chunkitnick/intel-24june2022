@@ -28,8 +28,6 @@ jobs:
 
       - name: Install  Dependencies
         run: npm install
-        with:
-          cache: 'node_modules'
 
       - name: Build the Gatsby Project
         run: |
