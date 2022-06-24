@@ -62,6 +62,17 @@ jobs:
 
       - name: Security Component Scanning
         run: npm audit --json > npm-audit-result.json
+        continue-on-error: true
+
+      - name: List the FIles available
+        run: ls -la
+
+      - name: Archive the npm aduit results output json file
+        uses: actions/upload-artifacts@v3
+        with:
+          name: NPM Audit Output JSON File
+          path: npm-audit-result.json
+        if: always()
 
   deploy:
     name: Deploy
