@@ -64,7 +64,7 @@ jobs:
           cache: 'npm'
 
       - name: Security Component Scanning
-        run: npm audit --json > npm-audit-result.json
+        run: npm audit --json
 
   deploy:
     name: Deploy
