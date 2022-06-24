@@ -11,7 +11,7 @@ on:
     
 jobs:
   build:
-    name: Build and deploy Gatsby site
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -22,6 +22,9 @@ jobs:
         with:
           node-version: 16
           cache: 'npm'
+
+      - name: Install gatsby cli
+        run: npm install --location=global gatsby-cli
 
       - name: Install  Dependencies
         run: npm install
