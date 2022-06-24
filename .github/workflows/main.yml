@@ -15,27 +15,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v3
 
       - name: Install Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: 16
+          cache: 'npm'
 
-      - name: Install Project Dependencies
-        run: npm ci
-
-      - name: Install Gatsby CLI
-        run: npm install -g gatsby-cli
-     
-      - name: NPM install
+      - name: Install  Dependencies
         run: npm install
 
-      - name: Build
+      - name: Build the Gatsby Project
         run: |
           gatsby --version
           gatsby build
       
-      - name: Verify build
+      - name: Verify Public folder
         run: ls -la public
      
+      - name: Upload public folder as Package
+        uses: actions/upload-artifact@v3
+        with:
+          name: public-package
+          path: public
