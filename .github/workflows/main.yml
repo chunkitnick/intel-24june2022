@@ -53,7 +53,7 @@ jobs:
           with:
             name: public-package
             path: public
-            
+
         - name: copy public to ubuntu
           uses: mdallasanta/ssh-scp-deploy@v1.2.0
           with:
@@ -63,7 +63,7 @@ jobs:
             #port: ${{secrets.PORT}}                                      # Remote server port - REQUIRED false - DEFAULT 22
             user: ${{secrets.REMOTE_USER}}                                      # Remote server user - REQUIRED true
             #password: ${{secrets.PASSWORD}}                              # User password - REQUIRED at least one of "password" or "key" 
-            key: ${{secrets.SERVER_SSH_KEY}}                                        # Remote server private key - REQUIRED at least one of "password" or "key" 
+            key: ${{secrets.SSH_PRIVATEKEY}}                                        # Remote server private key - REQUIRED at least one of "password" or "key" 
             pre_upload: sudo rm -rf /var/www/html/*  # Command to run via ssh before scp upload - REQUIRED false
             post_upload: sudo mv public/* /var/www/html/  # Command to run via ssh after scp upload - REQUIRED false
             ssh_options: -o StrictHostKeyChecking=no                     # A set of ssh_option separated by -o - REQUIRED false - DEFAULT -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
