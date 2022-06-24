@@ -63,6 +63,9 @@ jobs:
           node-version: 16
           cache: 'npm'
 
+      - name: Install  Dependencies
+        run: npm install
+
       - name: Security Component Scanning
         run: npm audit --json
 
