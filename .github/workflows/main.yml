@@ -25,8 +25,13 @@ jobs:
       - name: Install Gatsby CLI
         run: npm install -g gatsby-cli@2.12.34
      
+      - name: NPM install
+        run: npm install
+
       - name: Build
-        run: gatsby build
+        run: |
+        gatsby --version
+        gatsby build
       
       - name: Verify build
         run: ls -la public
